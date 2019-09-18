@@ -1,7 +1,3 @@
-
-server:
-  port: 8083
-
 spring:
   application:
     name: sample-gateway2
@@ -11,67 +7,3 @@ eureka:
   client:
     enabled: false
 
-
-zuul:
-  ignoredServices: '*'
-  routes:
-    books:
-      path: /books/**
-    # url: http://localhost:8091
-      serviceId: book
-
-    service2:
-        path: /service2/**
-        serviceId: service2
-  host:
-    maxTotalConnections: 50
-    maxPerRouteConnections: 1
-
-
-  ribbon-isolation-strategy: thread
-  thread-pool:
-    use-separate-thread-pools: true
-
-
-
-
-
-ribbon:
-  eureka:
-    enabled: false
-  MaxTotalConnections: 200
-  MaxConnectionsPerHost: 100
-  PoolMaxThreads: 100
-
-book:
-  ribbon:
-    NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList
-    listOfServers: http://localhost:8091
-    ConnectTimeout: 5000
-    ReadTimeout: 10000
-
-
-
-
-service2:
-  ribbon:
-    NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList
-    listOfServers: http://localhost:8093
-    ConnectTimeout: 20000
-    ReadTimeout: 20000
-
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: hystrix.stream
-
-turbine.clusterNameExpression= new String(“default”)
-
-turbine:
-  aggregator:
-    cluster-config: zuul-agregate
-
-
-  instanceUrlSuffix: ":8082/weatherService/hystrix.stream",":8083/weatherService/hystrix.stream"
